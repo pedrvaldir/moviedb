@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">The Movie Db</string>
+
+    <string name="tv_release">Data: </string>
+</resources>
