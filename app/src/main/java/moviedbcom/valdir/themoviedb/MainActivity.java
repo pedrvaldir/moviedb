@@ -2,6 +2,7 @@ package moviedbcom.valdir.themoviedb;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.activity_main);
 
         mRecyclerView =  findViewById(R.id.rv_movies);
@@ -30,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
         exampleMovie.add(new Movie("antotio", "teste@anritio.com", "adf","sadf","sadf"));
         exampleMovie.add(new Movie("2antotio", "2teste@anritio.com", "adf","sadf","sadf"));
+        exampleMovie.add(new Movie("2antotio", "2teste@anritio.com", "adf","sadf","sadf"));
 
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
         /*
