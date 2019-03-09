@@ -3,15 +3,14 @@ package moviedbcom.valdir.themoviedb;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
+import moviedbcom.valdir.themoviedb.utils.Constants;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
 
@@ -55,6 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         TextView overViewMovie;
         TextView voteMovie;
         TextView dateReleaseMovie;
+        ImageView imageView;
 
         public MovieViewHolder(View itemView) {
 
@@ -64,14 +64,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             overViewMovie = (TextView) itemView.findViewById(R.id.tv_item_overview);
             voteMovie = (TextView) itemView.findViewById(R.id.tv_item_vote);
             dateReleaseMovie = (TextView) itemView.findViewById(R.id.tv_item_release_date);
+            imageView = (ImageView) itemView.findViewById(R.id.img_item_movie);
         }
 
         void bind(Movie movie) {
+
+            Picasso.get()
+                    .load(Constants.urlImages+movie.getImage())
+                    .into(imageView);
 
             titleMovie.setText(movie.getTitle());
             overViewMovie.setText(movie.getOverview());
             voteMovie.setText(movie.getVote_overage());
             dateReleaseMovie.setText(movie.getDate_release());
+
         }
     }
 }

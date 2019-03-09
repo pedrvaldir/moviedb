@@ -1,14 +1,14 @@
 package moviedbcom.valdir.themoviedb;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ListView;
-
 import java.util.ArrayList;
-import java.util.List;
+
+import moviedbcom.valdir.themoviedb.utils.Constants;
+import moviedbcom.valdir.themoviedb.utils.Query;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,30 +22,44 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        mRecyclerView =  findViewById(R.id.rv_movies);
+        initializeRecyclerView();
 
-        ArrayList<Movie> exampleMovie = new ArrayList<>();
+        movieAsyncTask task = new movieAsyncTask();
 
-        MovieAdapter mMovieAdapter;
+        task.execute(Constants.urlMdb+Constants.urlPopularity+Constants.keyMdb);
 
+    }
 
-        exampleMovie.add(new Movie("antotio", "teste@anritio.com", "adf","sadf","sadf"));
-        exampleMovie.add(new Movie("2antotio", "2teste@anritio.com", "adf","sadf","sadf"));
-        exampleMovie.add(new Movie("2antotio", "2teste@anritio.com", "adf","sadf","sadf"));
-
+    private void initializeRecyclerView() {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+        mRecyclerView = findViewById(R.id.rv_movies);
+
         mRecyclerView.setLayoutManager(layoutManager);
 
-        /*
-         * Use this setting to improve performance if you know that changes in content do not
-         * change the child layout size in the RecyclerView
-         */
         mRecyclerView.setHasFixedSize(true);
 
-        mMovieAdapter = new MovieAdapter(exampleMovie);
+    }
 
-        //  movieListView.setAdapter(mMovieAdapter);
+    private class movieAsyncTask extends AsyncTask<String, Void,  ArrayList<Movie>>{
 
-       mRecyclerView.setAdapter(mMovieAdapter);
+
+
+        @Override
+        protected ArrayList<Movie> doInBackground(String... strings) {
+
+            ArrayList<Movie> result= Query.queryMovies(strings[0]);
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Movie> moviesList) {
+
+            final MovieAdapter mMovieAdapter = new MovieAdapter(moviesList);
+
+            mRecyclerView.setAdapter(mMovieAdapter);
+
+        }
     }
 }
